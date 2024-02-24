@@ -1,16 +1,74 @@
 <!DOCTYPE html>
 <html>
+<head>
+    <style>
+        body {
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            text-align: center;
+            min-height: 100vh;
+            font-family: Arial, sans-serif;
+            background: linear-gradient(320deg,#f27121,#e94057,#8a2387);
+        }
+        .survey {
+            background: rgba(255, 255, 255, 0.1);
+            backdrop-filter: blur(10px);
+            border-radius: 10px;
+            padding: 20px;
+            margin-bottom: 20px;
+            margin-top: 5em;
+            border: 1px solid rgba(255, 255, 255, 0.2);
+            width: 50%;
+        }
+        h1, p, label {
+            color: white;
+        }
+        .question {
+            display: flex;
+            justify-content: space-between;
+            flex-direction: column;
+            background: rgba(255, 255, 255, 0.1);
+            border-radius: 10px;
+            margin-top: 1em;
+            margin-bottom: 1em;
+            padding: 1em 0;
+        }
+        .options {
+            display: flex;
+            justify-content: space-around;
+        }
+        input[type="submit"] {
+            display: block;
+            margin: 0 auto;
+            background-color: #4CAF50;
+            color: white;
+            padding: 14px 20px;
+            border: none;
+            cursor: pointer;
+            border-radius: 4px;
+        }
+    </style>
+</head>
 <body>
-    <h1>Survey</h1>
-    <form method="POST">
-        {% for question, strings in questions.items() %}
-            <p>{{ question }}</p>
-            {% for string in strings %}
-                <input type="radio" id="{{ string }}" name="{{ question }}" value="{{ string }}">
-                <label for="{{ string }}">{{ string }}</label><br>
+    <div class="survey">
+        <h1>Por favor, escoge la opción que creas  que tiene menos letras a primera vista</h1>
+        <form method="POST">
+            {% for question, strings in questions.items() %}
+                <div class="question">
+                    <p>{{ question }}</p>
+                    <div class="options">
+                        {% for string in strings %}
+                            <div>
+                                <input type="radio" id="{{ string }}" name="{{ question }}" value="{{ string }}">
+                                <label for="{{ string }}">{{ string }}</label><br>
+                            </div>
+                        {% endfor %}
+                    </div>
+                </div>
             {% endfor %}
-        {% endfor %}
-        <input type="submit" value="Submit">
-    </form>
+            <input type="submit" value="Submit">
+        </form>
+    </div>
 </body>
 </html>

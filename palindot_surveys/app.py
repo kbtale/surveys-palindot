@@ -1,9 +1,10 @@
-from flask import Flask, request, render_template
+from flask import Flask, request, render_template, session
 import random
 import string
 import requests
 
 app = Flask(__name__)
+app.secret_key = 'your_secret_key'  # Replace with your secret key
 
 def generate_string(length=10):
     """Generate a random string of fixed length."""
@@ -19,25 +20,35 @@ def generate_palindrome(length=10):
 
 @app.route('/', methods=['GET', 'POST'])
 def survey():
+    if request.method != 'POST':
+        questions = ['Question 01', 'Question 02', 'Question 03', 'Question 04', 'Question 05', 'Question 06', 'Question 07', 'Question 08', 'Question 09', 'Question 10']
+        # Generate a new string and a new palindrome for each question
+        session['questions_with_strings'] = {q: [generate_string(), generate_palindrome()] for q in questions}
+        print("Session: ")
+        print(session['questions_with_strings'])
+
     if request.method == 'POST':
         # Get form data
         form_data = request.form.to_dict()
 
         # Prepare data for the webhook
         data_for_webhook = {}
-        for question, answer in form_data.items():
-            all_options = [generate_string(), generate_palindrome()]
-            not_chosen_options = [option for option in all_options if option != answer]
-            data_for_webhook[question] = [answer] + not_chosen_options
-
+        for question, options in session['questions_with_strings'].items():
+            selected_option = form_data.get(question)
+            non_selected_option = next(option for option in options if option != selected_option)
+            data_for_webhook[question] = {'S': selected_option, 'N': non_selected_option}
+        print("Data: ")
+        print(data_for_webhook)
         # Send data to your Make webhook
         make_webhook_url = 'https://hook.us1.make.com/5thxgtk7vmj47hug1rfvegfuhebdpi64'
         response = requests.post(make_webhook_url, json=data_for_webhook)
+        # Generate a new string and a new palindrome for each question
+        questions = ['Question 01', 'Question 02', 'Question 03', 'Question 04', 'Question 05', 'Question 06', 'Question 07', 'Question 08', 'Question 09', 'Question 10']
+        session['questions_with_strings'] = {q: [generate_string(), generate_palindrome()] for q in questions}
 
-    questions = ['Question 1', 'Question 2', 'Question 3', 'Question 4', 'Question 5', 'Question 6', 'Question 7', 'Question 8', 'Question 9', 'Question 10']
-    # Generate a new string and a new palindrome for each question
-    questions_with_strings = {q: (generate_string(), generate_palindrome()) for q in questions}
-    return render_template('survey.html', questions=questions_with_strings)
+    return render_template('survey.html', questions=session.get('questions_with_strings', {}))
+
 
 if __name__ == '__main__':
     app.run(debug=True)
+
