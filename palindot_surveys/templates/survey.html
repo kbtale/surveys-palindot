@@ -1,0 +1,16 @@
+<!DOCTYPE html>
+<html>
+<body>
+    <h1>Survey</h1>
+    <form method="POST">
+        {% for question, strings in questions.items() %}
+            <p>{{ question }}</p>
+            {% for string in strings %}
+                <input type="radio" id="{{ string }}" name="{{ question }}" value="{{ string }}">
+                <label for="{{ string }}">{{ string }}</label><br>
+            {% endfor %}
+        {% endfor %}
+        <input type="submit" value="Submit">
+    </form>
+</body>
+</html>
