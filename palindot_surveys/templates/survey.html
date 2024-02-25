@@ -35,40 +35,184 @@
             padding: 1em 0;
         }
         .options {
-            display: flex;
-            justify-content: space-around;
+            margin-bottom: 1em;
+        }        
+        :root {
+            --cSize: 30px;
+            --cInactive: #fff;
+            --cActive: #44b;
+            --particleSize: 0px;
+            --cEasing: ease;
+            --cTiming: 0.5s;
+            --innerPaddingSize: 30px;
         }
-        input[type="submit"] {
-            display: block;
-            margin: 0 auto;
-            background-color: #4CAF50;
-            color: white;
-            padding: 14px 20px;
-            border: none;
+
+        .particles-checkbox {
+            height: var(--cSize);
+            width: var(--cSize);
+            display: inline-flex;
+            -webkit-appearance: none;
+                -moz-appearance: none;
+                    appearance: none;
+            border: 3px #fff solid;
+            border-radius: 50%;
+            position: relative;
             cursor: pointer;
-            border-radius: 4px;
+            transition: all var(--cTiming) var(--cEasing);
+            margin: 2px;
+        }
+        .particles-checkbox:focus {
+        outline: 0;
+        }
+        .particles-checkbox:checked {
+        background-color: var(--cActive);
+        }
+        .particles-checkbox:checked::after {
+            background-color: #ffffff;
+            height: calc(var(--cSize) * 0.3);
+            width: calc(var(--cSize) * 0.3);
+        }
+        .particles-checkbox:checked::before {
+        -webkit-animation: particleAnimate var(--cTiming) var(--cEasing) forwards;
+                animation: particleAnimate var(--cTiming) var(--cEasing) forwards;
+        }
+        .particles-checkbox:checked + span {
+        border-color: #577af3;
+        color: #babed4;
+        }
+        .particles-checkbox::before, .particles-checkbox::after {
+            content: "";
+            position: absolute;
+            top: 0;
+            bottom: 0;
+            left: 0;
+            right: 0;
+            margin: auto;
+            border-radius: inherit;
+            height: 0px;
+            width: 0px;
+        }
+        .particles-checkbox::after {
+        transition: all var(--cTiming) var(--cEasing);
+        }
+        .particles-checkbox::before {
+        --particleSize: 4px;
+        height: var(--particleSize);
+        width: var(--particleSize);
+        z-index: 2;
+        }
+
+        @-webkit-keyframes particleAnimate {
+        0% {
+            box-shadow: 0px 0px 0px transparent, NaNpx NaNpx transparent, NaNpx NaNpx transparent, 0px 0px 0px transparent, NaNpx NaNpx transparent, NaNpx NaNpx transparent, 0px 0px 0px transparent, NaNpx NaNpx transparent, NaNpx NaNpx transparent;
+            transform: rotate(0turn);
+            opacity: 1;
+        }
+        50%,
+        100% {
+            box-shadow: 0px 0px 0px transparent, -2.23929px 19.87424px #f94144, -19.49856px -4.45042px #f94144, 6.60558px -18.87767px #f94144, 18.01938px 8.67767px #f94144, -10.64064px 16.93448px #f94144, -15.63663px -12.4698px #f94144, 14.14214px -14.14214px #f94144, 0px 0px 0px transparent, -25.98076px -15px #f9c74f, 15px 25.98076px #f9c74f, 0px -30px #f9c74f, 0px 0px 0px transparent, -28.51221px -14.5277px #ffd166, 18.80913px 25.88854px #ffd166, -5.0059px -31.60603px #ffd166, -9.88854px 30.43381px #ffd166, 22.62742px -22.62742px #ffd166;
+            opacity: 1;
+        }
+        100% {
+            opacity: 0;
+            transform: rotate(0.5turn);
+        }
+        }
+
+        @keyframes particleAnimate {
+        0% {
+            box-shadow: 0px 0px 0px transparent, NaNpx NaNpx transparent, NaNpx NaNpx transparent, 0px 0px 0px transparent, NaNpx NaNpx transparent, NaNpx NaNpx transparent, 0px 0px 0px transparent, NaNpx NaNpx transparent, NaNpx NaNpx transparent;
+            transform: rotate(0turn);
+            opacity: 1;
+        }
+        50%,
+        100% {
+            box-shadow: 0px 0px 0px transparent, -2.23929px 19.87424px #f94144, -19.49856px -4.45042px #f94144, 6.60558px -18.87767px #f94144, 18.01938px 8.67767px #f94144, -10.64064px 16.93448px #f94144, -15.63663px -12.4698px #f94144, 14.14214px -14.14214px #f94144, 0px 0px 0px transparent, -25.98076px -15px #f9c74f, 15px 25.98076px #f9c74f, 0px -30px #f9c74f, 0px 0px 0px transparent, -28.51221px -14.5277px #ffd166, 18.80913px 25.88854px #ffd166, -5.0059px -31.60603px #ffd166, -9.88854px 30.43381px #ffd166, 22.62742px -22.62742px #ffd166;
+            opacity: 1;
+        }
+        100% {
+            opacity: 0;
+            transform: rotate(0.5turn);
+        }
+        }
+        .particles-checkbox-container {
+            display: inline-flex;
+            padding: 20px;
+            margin-top: 10px;
+            align-items: center;
+            justify-content: flex-start;
+            border-radius: 8px;
+            cursor: pointer;
+            position: relative;
+            transition: all var(--cTiming) var(--cEasing);
+            background-color: rgba(255, 255, 255, .1);
+            max-width: 80%;
+        }
+        .particles-checkbox-container > label {
+            border: 3px solid transparent;
+            border-radius: calc(var(--innerPaddingSize) * 0.5);
+            padding: 10px;
+            width: 300px;
+            color: #fff;
+            transition: all var(--cTiming) var(--cEasing);
+        }
+        .particles-checkbox-container .particles-checkbox {
+            position: absolute;
+            left: var(--innerPaddingSize);
+        }
+        .btn {
+            width: 130px;
+            height: 40px;
+            font-size: 1.1em;
+            cursor: pointer;
+            background-color: #4CAF50;
+            color: #fff;
+            border: none;
+            border-radius: 5px;
+            transition: all .4s;
+        }
+
+        .btn:hover {
+            border-radius: 5px;
+            transform: translateY(-10px);
+            box-shadow: 0 7px 0 -2px #f85959,
+            0 15px 0 -4px #39a2db,
+            0 16px 10px -3px #39a2db;
+        }
+
+        .btn:active {
+            transition: all 0.2s;
+            transform: translateY(-5px);
+            box-shadow: 0 2px 0 -2px #f85959,
+            0 8px 0 -4px #39a2db,
+            0 12px 10px -3px #39a2db;
         }
     </style>
 </head>
 <body>
     <div class="survey">
-        <h1>Por favor, escoge la opción que creas  que tiene menos letras a primera vista</h1>
+        <h1>Por favor, escoja la opción que cree que tiene más carácteres</h1>
         <form method="POST">
             {% for question, strings in questions.items() %}
                 <div class="question">
                     <p>{{ question }}</p>
                     <div class="options">
                         {% for string in strings %}
-                            <div>
-                                <input type="radio" id="{{ string }}" name="{{ question }}" value="{{ string }}">
+                            <div class="particles-checkbox-container">
+                                <input type="radio" id="{{ string }}" name="{{ question }}" value="{{ string }}" class="particles-checkbox">
                                 <label for="{{ string }}">{{ string }}</label><br>
                             </div>
                         {% endfor %}
                     </div>
                 </div>
             {% endfor %}
-            <input type="submit" value="Submit">
+            <input class="btn" type="submit" value="Enviar">
         </form>
     </div>
+    <script>
+        if ( window.history.replaceState ) {
+            window.history.replaceState( null, null, window.location.href );
+        }
+    </script>
 </body>
 </html>
